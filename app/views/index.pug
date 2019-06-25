@@ -1,0 +1,14 @@
+extends layout.pug
+  
+block content
+
+  .container
+    h1= message
+    p="Start by populating the DB, then each page as a different kind of NoSQL Injection vector."
+    h2= "Getting Started"
+    a(href='/reset') Populate / Reset DB
+
+    h2= "Attacks"
+    ul
+      li
+        a(href='/user/lookup') User Lookup - see if you can get all users

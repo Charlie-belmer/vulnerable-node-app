@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  node:
+    build:
+      dockerfile: Dockerfile
+      context: ./app
+    ports:
+      - 4000:4000
+    environment:
+      - MONGO_HOST=mongo
+      - MONGO_PORT=27017
+    volumes:
+      - './app:/usr/src/app'
+    command: ["/usr/src/wait/wait-for-it.sh", "mongo:27017", "--", "nodemon", "server"]
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    environment:
+      - MONGO_DATA_DIR=/data/db
+    volumes:
+      - mongo:/data/db
+ 
+volumes:
+  mongo:
