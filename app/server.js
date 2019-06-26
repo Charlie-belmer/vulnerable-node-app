@@ -18,6 +18,7 @@ mongoose.connect(config.DB, { useNewUrlParser: true}).then(
 const app = express();
 app.use(bodyParser.urlencoded());
 app.use(bodyParser.json());
+app.use(express.static('static'));
 app.set('view engine', 'pug')
 
 var whitelist = ['http://localhost:4200', 'http://localhost:4000', 'http://node-backend:4000', 'http://angular-frontend:4200']

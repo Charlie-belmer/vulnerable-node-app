@@ -1,20 +1,19 @@
 extends layout.pug
+
+block scripts
+  script(src="/js/login.js")
   
 block content
   h1= "User Login"
 
   p= "Login with a valid username and password"
-  form(method="post")
+  form#login_form
     .form-group()
       label(for="username", class="sr-only") Username
       input(type="text", name="username")
     .form-group()
       label(for="password", class="sr-only") Password
       input(type="password", name="password")
-    button(type="submit" class="btn btn-primary") Login
+    button#login_submit(type="submit" class="btn btn-primary") Login
 
-  - if (role !== "None")
-    - if (role !== "invalid") 
-      p="Logged in as " + username + " with role " + role
-    - else
-      p="Invalid Login"
+  div#response
