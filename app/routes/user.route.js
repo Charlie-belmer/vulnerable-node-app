@@ -8,7 +8,7 @@ let User = require('../models/User');
 userRoutes.route('/lookup').get(function(req, res) {
 	let username = req.query.username;
 	console.log("request " + JSON.stringify(username));
-	if (typeof username !== 'undefined') {
+	if (typeof username !== 'undefined' && username != "") {
 		query = { $where: `this.username == '${username}'` }
 		//Simple injection: pass in "' || '2'=='2" (without double quotes)
 		// This will return all records
@@ -26,7 +26,7 @@ userRoutes.route('/lookup').get(function(req, res) {
 		});
 	}
 	else {
-		res.render('userlookup', { title: 'User Lookup'});
+		res.render('userlookup', { title: 'User Lookup', users:[]});
 	}	
 });
 
