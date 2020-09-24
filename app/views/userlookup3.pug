@@ -1,0 +1,25 @@
+extends layout.pug
+  
+block content
+  h1= "User Lookup"
+
+  p= "Lookup a username here. To get you started, a valid user is guest. You can NoSQL Inject to find other users."
+  form(method="post", class="form-inline")
+    .form-group(class="mb-2")
+      label(for="lookup", class="sr-only") Username Search
+      input(type="text", name="username")
+    button(type="submit", id="login_submit", class="btn btn-primary") Search
+
+  table(class="table")
+    thead
+      tr
+        th(scope="col") ID
+        th(scope="col") Username
+        th(scope="col") Role
+    tbody
+      - if (users !== undefined) 
+        - for (var i=0; i < users.length; i++)
+          tr
+            td #{users[i]._id}
+            td #{users[i].username}
+            td #{users[i].role}

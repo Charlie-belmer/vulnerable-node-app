@@ -30,6 +30,85 @@ userRoutes.route('/lookup').get(function(req, res) {
 	}	
 });
 
+/** Allow a similar query using POST and JSON
+  * Similar to above, inject data like
+  * {"username":"' || '2'=='2"}
+
+  Sample default CURL request::
+	curl -X POST http://localhost:4000/user/lookup -H 'Content-Type: application/json' -d '{"username": "guest"}'
+  And Injection (need to escape our injected single quotes for CURL only):
+	curl -X POST http://localhost:4000/user/lookup -H 'Content-Type: application/json' -d '{"username": "guest'\'' || '\''2'\''=='\''2"}'
+  */
+userRoutes.route('/lookup').post(function(req, res) {
+	let username = req.body.username;
+	console.log("request " + JSON.stringify(username));
+	if (typeof username !== 'undefined') {
+		query = { $where: `this.username == '${username}'` }
+		console.log("Mongo query: " + JSON.stringify(query));
+		User.find(query, function (err, users) {
+			if (err) {
+				console.log(err);
+				res.json(err);
+			} else {
+				console.log("Data Retrieved: " + users);
+				res.json({users});
+			}
+		});
+	}
+	else {
+		res.json({});
+	}	
+});
+
+userRoutes.route('/lookup2').get(function(req, res) {
+	res.render('userlookup2', { title: 'User Lookup 2'});
+});
+
+userRoutes.route('/lookup2').post(function(req, res) {
+	let query = req.body;
+	let username = req.body.username;
+	//let query = 
+	console.log("request " + JSON.stringify(query));
+
+		console.log("Mongo query: " + JSON.stringify(query));
+		User.find(query, function (err, users) {
+			if (err) {
+				console.log(err);
+				res.json(err);
+			} else {
+				console.log("Data Retrieved: " + users);
+				res.render('userlookup2', { title: 'User Lookup 2', users: users });
+			}
+		});
+
+});
+
+userRoutes.route('/lookup3').get(function(req, res) {
+	res.render('userlookup3', { title: 'User Lookup 3'});
+});
+
+userRoutes.route('/lookup3').post(function(req, res) {
+	//let query = req.body;
+	let usernameData = req.body.username;
+	let query = `{"username": "${usernameData}"}`
+	qeury = JSON.parse(query)
+	console.log("request " + JSON.stringify(query));
+	query = {username: query.username}
+	console.log("request " + JSON.stringify(query));
+
+		console.log("Mongo query: " + JSON.stringify(query));
+		User.find(query, function (err, users) {
+			if (err) {
+				console.log(err);
+				res.json(err);
+			} else {
+				console.log("Data Retrieved: " + users);
+				res.render('userlookup2', { title: 'User Lookup 2', users: users });
+			}
+		});
+
+});
+
 userRoutes.route('/login').get(function(req, res) {
 	res.render('userlogin', { title: 'User Login', role: "None"});
 });
