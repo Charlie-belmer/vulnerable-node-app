@@ -10,8 +10,9 @@ services:
     environment:
       - MONGO_HOST=mongo
       - MONGO_PORT=27017
-    volumes:
-      - './app:/usr/src/app'
+    # Uncomment the below for faster development
+    #volumes:
+    #  - './app:/usr/src/app'
     command: ["/usr/src/wait/wait-for-it.sh", "mongo:27017", "--", "nodemon", "server"]
   mongo:
     image: mongo:latest
