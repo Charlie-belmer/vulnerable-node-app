@@ -91,7 +91,7 @@ userRoutes.route('/lookup3').post(function(req, res) {
 	//let query = req.body;
 	let usernameData = req.body.username;
 	let query = `{"username": "${usernameData}"}`
-	qeury = JSON.parse(query)
+	query = JSON.parse(query)
 	console.log("request " + JSON.stringify(query));
 	query = {username: query.username}
 	console.log("request " + JSON.stringify(query));
